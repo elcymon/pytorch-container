@@ -1,0 +1,26 @@
+Bootstrap: docker
+From: ubuntu:16.04
+
+%post
+    apt-get -y update
+    apt-get -y upgrade
+    apt-get -y install bzip2 build-essential vim curl
+    
+    curl -O https://repo.anaconda.com/archive/Anaconda3-5.3.0-Linux-x86_64.sh
+    bash Anaconda3-5.3.0-Linux-x86_64.sh -b -p /anaconda3
+    
+    #add anaconda to PATH
+    PATH=/anaconda3/bin:$PATH
+    
+    #installs pytorch and torchvision with support for cuda 9.0 (at time of writing this)
+    conda install pytorch torchvision -c pytorch
+
+    #to work with specific cuda version, for example cuda 10.0 use:
+    #conda install pytorch torchvision cuda100 -c pytorch
+
+%environment
+    export LC_ALL=C.UTF-8
+
+%runscript
+    "$@"
+    
